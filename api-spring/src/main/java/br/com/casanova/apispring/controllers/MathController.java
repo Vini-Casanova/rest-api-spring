@@ -1,4 +1,4 @@
-package br.com.casanova.apispring;
+package br.com.casanova.apispring.controllers;
 
 import br.com.casanova.apispring.exceptions.UnsupportedMathOperationException;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.concurrent.atomic.AtomicLong;
+
+import static br.com.casanova.apispring.parsers.DoubleConverter.doubleParser;
+import static br.com.casanova.apispring.parsers.DoubleConverter.isNumeric;
 
 @RestController
 public class MathController {
@@ -89,20 +92,6 @@ public class MathController {
         }
 
         return Math.sqrt(doubleParser(FirstNumber));
-    }
-
-    private static Double doubleParser(String StringNumber){
-        if (StringNumber ==null || StringNumber.length() == 0) return 0D;
-        String reformedNumber = StringNumber.replaceAll(",",".");
-
-        if (isNumeric(reformedNumber)) return Double.parseDouble(reformedNumber);
-        return 0D;
-    }
-
-    private static boolean isNumeric(String number){
-        if (number == null || number.length() == 0) return false;
-        String reformedNumber = number.replaceAll(",",".");
-        return reformedNumber.matches("[-+]?[0-9]*\\.?[0-9]+");
     }
 
 
