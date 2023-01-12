@@ -19,6 +19,9 @@ target/
 *.iml
 *.ipr
 
+### SPRING CONFIGURATION ###
+*.yml
+
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
