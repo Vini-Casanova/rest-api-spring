@@ -1,33 +1,24 @@
 package br.com.casanova.apispring.controllers;
 
-import br.com.casanova.apispring.exceptions.UnsupportedMathOperationException;
+import br.com.casanova.apispring.models.Person;
+import br.com.casanova.apispring.services.PersonServices;
+import jakarta.websocket.server.PathParam;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.concurrent.atomic.AtomicLong;
-
-import static br.com.casanova.apispring.parsers.DoubleConverter.doubleParser;
-import static br.com.casanova.apispring.parsers.DoubleConverter.isNumeric;
-
 @RestController
-public class MathController {
+@RequestMapping("/person")
+public class PersonController {
 
-//    private static  final String template = "Hello , %s !";
-//    private final AtomicLong counter = new AtomicLong();
+    @Autowired
+    private PersonServices services;
 
-    @RequestMapping(value = "/sum" , method = RequestMethod.GET)
-    public Double sum(
-            @RequestParam(value = "FirstNumber") String FirstNumber,
-            @RequestParam(value = "SecondNumber") String SecondNumber
-            )throws Exception{
-
-            if(!isNumeric(FirstNumber) || !isNumeric(SecondNumber)){
-                throw new UnsupportedMathOperationException("Please set a numeric value on the variables");
-            }
-
-            return doubleParser(FirstNumber) + doubleParser(SecondNumber);
+    @RequestMapping(value = "/{id}" , method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Person findById(@PathParam(value = "id") Long id)throws Exception{
+            return services.findById(id);
     }
 
 }
