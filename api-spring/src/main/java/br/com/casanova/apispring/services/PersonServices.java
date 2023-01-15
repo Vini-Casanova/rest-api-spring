@@ -1,8 +1,10 @@
 package br.com.casanova.apispring.services;
 
 import br.com.casanova.apispring.data.vo.v1.PersonVO;
+import br.com.casanova.apispring.data.vo.v2.PersonVOV2;
 import br.com.casanova.apispring.exceptions.ResourceNotFoundException;
 import br.com.casanova.apispring.mapper.DozerMapper;
+import br.com.casanova.apispring.mapper.custom.PersonMapper;
 import br.com.casanova.apispring.models.Person;
 import br.com.casanova.apispring.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,9 @@ public class PersonServices {
 
     @Autowired
     PersonRepository repository;
+
+    @Autowired
+    PersonMapper VO2mapper;
 
     public PersonVO findById(Long id){
         logger.info("Finding person by Id");
@@ -35,6 +40,13 @@ public class PersonServices {
         Person personEntity = DozerMapper.parseObject(personvo, Person.class);
         repository.save(personEntity);
         return personvo;
+    }
+
+    public PersonVOV2 createV2 (PersonVOV2 personvo2){
+        logger.info("Creating person with V2");
+        Person personEntity = VO2mapper.convertVO2ToEntity(personvo2);
+        repository.save(personEntity);
+        return personvo2;
     }
 
     public void delete (Long id){
