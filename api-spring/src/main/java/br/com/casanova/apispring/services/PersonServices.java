@@ -44,6 +44,8 @@ public class PersonServices {
         logger.info("Updating person");
 
         Person entity = repository.findById(person.getId()).orElseThrow(() -> new ResourceNotFoundException("No records found for this ID"));
+        entity.setAddress(person.getAddress());
+        entity.setName(person.getName());
 
         return repository.save(entity);
     }
