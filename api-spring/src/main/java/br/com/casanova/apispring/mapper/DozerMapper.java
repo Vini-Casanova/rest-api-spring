@@ -17,7 +17,6 @@ public class DozerMapper{
     public static <O, D> List<D> parseListObjects(List<O> origin, Class<D> destination){
         List<D> destinationObjects = new ArrayList<>();
         for(O o : origin){
-            System.out.println("dentro do loop");
             destinationObjects.add(mapper.map(o, destination));
         }
         return destinationObjects;
