@@ -17,28 +17,29 @@ public class PersonController {
     @Autowired
     private PersonServices services;
 
-    @GetMapping(value = "/{id}" , produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{id}" , produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public PersonVO findById(@PathVariable Long id)throws Exception{
             return services.findById(id);
     }
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public List<PersonVO> findById()throws Exception{
         return services.findAll();
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public void save(@RequestBody PersonVO person)throws Exception{
         services.create(person);
     }
 
-    @PostMapping(value = "/v2",consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/v2",consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public void saveV2(@RequestBody PersonVOV2 person)throws Exception{
         services.createV2(person);
     }
 
 
-    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+                produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public PersonVO update(@RequestBody PersonVO person) throws Exception {
         return services.update(person);
     }
