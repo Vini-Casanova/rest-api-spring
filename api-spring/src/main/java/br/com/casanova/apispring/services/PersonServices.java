@@ -1,6 +1,10 @@
 package br.com.casanova.apispring.services;
 
+import br.com.casanova.apispring.data.vo.v1.PersonVO;
+import br.com.casanova.apispring.data.vo.v2.PersonVOV2;
 import br.com.casanova.apispring.exceptions.ResourceNotFoundException;
+import br.com.casanova.apispring.mapper.DozerMapper;
+import br.com.casanova.apispring.mapper.custom.PersonMapper;
 import br.com.casanova.apispring.models.Person;
 import br.com.casanova.apispring.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,20 +20,33 @@ public class PersonServices {
     @Autowired
     PersonRepository repository;
 
-    public Person findById(Long id){
+    @Autowired
+    PersonMapper VO2mapper;
+
+    public PersonVO findById(Long id){
         logger.info("Finding person by Id");
-
-        return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No records found for this ID"));
+        Person entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No records found for this ID"));
+        return DozerMapper.parseObject(entity, PersonVO.class);
     }
 
-    public List<Person> findAll (){
+    public List<PersonVO> findAll (){
         logger.info("Finding all");
-        return repository.findAll();
+        List<Person> entities = repository.findAll();
+        return DozerMapper.parseListObjects(entities, PersonVO.class);
     }
 
-    public Person create(Person person){
+    public PersonVO create(PersonVO personvo){
         logger.info("Creating person");
-        return repository.save(person);
+        Person personEntity = DozerMapper.parseObject(personvo, Person.class);
+        repository.save(personEntity);
+        return personvo;
+    }
+
+    public PersonVOV2 createV2 (PersonVOV2 personvo2){
+        logger.info("Creating person with V2");
+        Person personEntity = VO2mapper.convertVO2ToEntity(personvo2);
+        repository.save(personEntity);
+        return personvo2;
     }
 
     public void delete (Long id){
@@ -40,14 +57,15 @@ public class PersonServices {
     }
 
 
-    public Person update(Person person){
+    public PersonVO update(PersonVO personvo){
         logger.info("Updating person");
+        Person entity = repository.findById(personvo.getId()).orElseThrow(() -> new ResourceNotFoundException("No records found for this ID"));
 
-        Person entity = repository.findById(person.getId()).orElseThrow(() -> new ResourceNotFoundException("No records found for this ID"));
-        entity.setAddress(person.getAddress());
-        entity.setName(person.getName());
+        entity.setAddress(personvo.getAddress());
+        entity.setName(personvo.getName());
+        repository.save(entity);
 
-        return repository.save(entity);
+        return personvo;
     }
 
 
