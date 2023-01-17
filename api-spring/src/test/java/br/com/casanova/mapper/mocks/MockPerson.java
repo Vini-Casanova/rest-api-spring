@@ -46,7 +46,7 @@ public class MockPerson {
         PersonVO person = new PersonVO();
         person.setAddress("Addres Test" + number);
         person.setName("Name Test" + number);
-        person.setId(number.longValue());
+        person.setPrimaryKey(number.longValue());
         return person;
     }
 

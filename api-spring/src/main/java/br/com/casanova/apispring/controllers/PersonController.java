@@ -31,11 +31,10 @@ public class PersonController {
         return services.findAll();
     }
 
-    @PostMapping(consumes = {MediaType.APPLICATION_JSON,
-                             MediaType.APPLICATION_XML,
-                             MediaType.APPLICATION_YML})
-    public void save(@RequestBody PersonVO person)throws Exception{
-        services.create(person);
+    @PostMapping(consumes = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML},
+                 produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
+    public PersonVO save(@RequestBody PersonVO person)throws Exception{
+        return services.create(person);
     }
 
     @PostMapping(value = "/v2",consumes = {MediaType.APPLICATION_JSON,
