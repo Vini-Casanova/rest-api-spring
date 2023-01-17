@@ -1,13 +1,21 @@
 package br.com.casanova.apispring.data.vo.v1;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.github.dozermapper.core.Mapping;
+import org.springframework.hateoas.RepresentationModel;
+
 import java.io.Serializable;
 import java.util.Objects;
 
-public class PersonVO implements Serializable {
+@JsonPropertyOrder({"id","name","address"})
+public class PersonVO extends RepresentationModel<PersonVO> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private long id;
+    @Mapping("id")
+    @JsonProperty("id")
+    private long primaryKey;
 
     private String name;
 
@@ -15,12 +23,12 @@ public class PersonVO implements Serializable {
 
     public PersonVO() {}
 
-    public long getId() {
-        return id;
+    public long getPrimaryKey() {
+        return primaryKey;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setPrimaryKey(long primaryKey) {
+        this.primaryKey = primaryKey;
     }
 
     public String getName() {
@@ -45,11 +53,11 @@ public class PersonVO implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PersonVO personVO = (PersonVO) o;
-        return id == personVO.id && name.equals(personVO.name) && address.equals(personVO.address);
+        return primaryKey == personVO.primaryKey && name.equals(personVO.name) && address.equals(personVO.address);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, address);
+        return Objects.hash(primaryKey, name, address);
     }
 }
