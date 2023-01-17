@@ -26,7 +26,7 @@ public class PersonServices {
     @Autowired
     PersonMapper VO2mapper;
 
-    public PersonVO findById(Long id) throws Exception {
+    public PersonVO findById(Long id){
         logger.info("Finding person by Id");
         Person entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No records found for this ID"));
         PersonVO vo =  DozerMapper.parseObject(entity, PersonVO.class);
@@ -49,7 +49,7 @@ public class PersonServices {
         return persons;
     }
 
-    public PersonVO create(PersonVO personvo) throws Exception {
+    public PersonVO create(PersonVO personvo){
         logger.info("Creating person");
         Person personEntity = DozerMapper.parseObject(personvo, Person.class);
         PersonVO vo = DozerMapper.parseObject(repository.save(personEntity),PersonVO.class);
@@ -72,7 +72,7 @@ public class PersonServices {
     }
 
 
-    public PersonVO update(PersonVO personvo) throws Exception {
+    public PersonVO update(PersonVO personvo){
         logger.info("Updating person");
         Person entity = repository.findById(personvo.getPrimaryKey()).orElseThrow(() -> new ResourceNotFoundException("No records found for this ID"));
 

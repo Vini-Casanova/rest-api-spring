@@ -20,39 +20,39 @@ public class PersonController {
     @GetMapping(value = "/{id}" , produces = {MediaType.APPLICATION_JSON,
                                                 MediaType.APPLICATION_XML,
                                                 MediaType.APPLICATION_YML})
-    public PersonVO findById(@PathVariable Long id)throws Exception{
+    public PersonVO findById(@PathVariable Long id){
             return services.findById(id);
     }
 
     @GetMapping(produces = {MediaType.APPLICATION_JSON,
                             MediaType.APPLICATION_XML,
                             MediaType.APPLICATION_YML})
-    public List<PersonVO> findAll()throws Exception{
+    public List<PersonVO> findAll(){
         return services.findAll();
     }
 
     @PostMapping(consumes = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML},
                  produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
-    public PersonVO save(@RequestBody PersonVO person)throws Exception{
+    public PersonVO save(@RequestBody PersonVO person){
         return services.create(person);
     }
 
     @PostMapping(value = "/v2",consumes = {MediaType.APPLICATION_JSON,
                                              MediaType.APPLICATION_XML,
                                              MediaType.APPLICATION_YML})
-    public void saveV2(@RequestBody PersonVOV2 person)throws Exception{
+    public void saveV2(@RequestBody PersonVOV2 person){
         services.createV2(person);
     }
 
 
     @PutMapping(consumes = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML},
                 produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
-    public PersonVO update(@RequestBody PersonVO person) throws Exception {
+    public PersonVO update(@RequestBody PersonVO person){
         return services.update(person);
     }
 
     @DeleteMapping(value = ("/{id}"))
-    public ResponseEntity<?> delete (@PathVariable Long id) throws Exception {
+    public ResponseEntity<?> delete (@PathVariable Long id){
         services.delete(id);
         return ResponseEntity.noContent().build();
     }
