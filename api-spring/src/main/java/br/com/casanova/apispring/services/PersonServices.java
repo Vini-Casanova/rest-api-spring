@@ -3,6 +3,7 @@ package br.com.casanova.apispring.services;
 import br.com.casanova.apispring.controllers.PersonController;
 import br.com.casanova.apispring.data.vo.v1.PersonVO;
 import br.com.casanova.apispring.data.vo.v2.PersonVOV2;
+import br.com.casanova.apispring.exceptions.RequiredObjectsNullException;
 import br.com.casanova.apispring.exceptions.ResourceNotFoundException;
 import br.com.casanova.apispring.mapper.DozerMapper;
 import br.com.casanova.apispring.mapper.custom.PersonMapper;
@@ -50,6 +51,9 @@ public class PersonServices {
     }
 
     public PersonVO create(PersonVO personvo){
+
+        if(personvo == null) throw new RequiredObjectsNullException();
+
         logger.info("Creating person");
         Person personEntity = DozerMapper.parseObject(personvo, Person.class);
         PersonVO vo = DozerMapper.parseObject(repository.save(personEntity),PersonVO.class);
@@ -73,6 +77,8 @@ public class PersonServices {
 
 
     public PersonVO update(PersonVO personvo){
+
+        if(personvo == null) throw new RequiredObjectsNullException();
         logger.info("Updating person");
         Person entity = repository.findById(personvo.getPrimaryKey()).orElseThrow(() -> new ResourceNotFoundException("No records found for this ID"));
 
